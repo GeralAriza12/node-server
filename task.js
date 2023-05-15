@@ -7,20 +7,29 @@ const crear = readline.createInterface({
 
 const tasks = [];
 
-function addTask(task) {
-  tasks.push(task);
+async function addTask(task) {
+  await new Promise(resolve => {
+    tasks.push(task);
+    resolve();
+  });
   console.log(`Tarea añadida: ${task}`);
 }
 
-function deleteTask(index) {
-  const task = tasks.splice(index, 1)[0];
-  console.log(`Se elimino: ${task}`);
+async function deleteTask(index) {
+  await new Promise(resolve => {
+    const task = tasks.splice(index, 1)[0];
+    resolve();
+  });
+  console.log(`Se elimino: ${tasks}`);
 }
 
-function completeTask(index) {
-  const task = tasks[index];
-  task.completed = true;
-  console.log(`Se completo la tarea: ${task.description}`);
+async function completeTask(index) {
+  await new Promise(resolve => {
+    const task = tasks[index];
+    task.completed = true;
+    resolve();
+  });
+  console.log(`Se completo la tarea: ${tasks.description}`);
 }
 
 function printTasks() {
@@ -30,27 +39,31 @@ function printTasks() {
   });
 }
 
-function handleInput(input) {
-  const [command, ...args] = input.split(' ');
-  switch (command) {
-    case 'add':
-      addTask({
-        id: tasks.length + 1,
-        description: args.join(' '),
-        completed: false
-      });
-      break;
-    case 'delete':
-      deleteTask(parseInt(args[0]) - 1);
-      break;
-    case 'complete':
-      completeTask(parseInt(args[0]) - 1);
-      break;
-    case 'list':
-      printTasks();
-      break;
-    default:
-      console.log(`Comando no encontrado: ${command}`);
+async function handleInput(input) {
+  try {
+    const [command, ...args] = input.split(' ');
+    switch (command) {
+      case 'add':
+        await addTask({
+          id: tasks.length + 1,
+          description: args.join(' '),
+          completed: false
+        });
+        break;
+      case 'delete':
+        await deleteTask(parseInt(args[0]) - 1);
+        break;
+      case 'complete':
+        await completeTask(parseInt(args[0]) - 1);
+        break;
+      case 'list':
+        printTasks();
+        break;
+      default:
+        console.log(`Comando no encontrado: ${command}`);
+    }
+  } catch (error) {
+    console.error(error);
   }
   crear.prompt();
 }
@@ -65,4 +78,3 @@ console.log('- complete [número]: Marca una tarea como completada');
 console.log('- list: Muestra la lista de tareas');
 console.log('- exit: Sale de la aplicación\n');
 crear.prompt();
-
