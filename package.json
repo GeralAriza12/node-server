@@ -1,0 +1,25 @@
+{
+  "name": "nodenpm",
+  "version": "1.0.0",
+  "description": "¿Qué sucedio al usar async y await?\r     Cuando usamos async y await espera por una tarea que tarda en completarse pero no bloquea el resto de funciones me parecio mas rapida su respuesta en consola  \r ¿Qué sucedio al usar el método then()?\r     Las respuestas deben ser mas explicitas y puede volverse más difícil de comprender\r ¿Qué diferencias encontraste entre async, await y el método then()?\r     Async y await se puede usar con una sola promesa a la vez, mientras que el método then() permite trabajar con varias promesas a la vez",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon task.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeralAriza12/node-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GeralAriza12/node-server/issues"
+  },
+  "homepage": "https://github.com/GeralAriza12/node-server#readme",
+  "dependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

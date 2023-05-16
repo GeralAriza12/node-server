@@ -5,14 +5,39 @@ const crear = readline.createInterface({
   output: process.stdout
 });
 
+const http = require('http');
+const { log } = require('console');
+const port = 3000;
+const host = 'localhost';
+
+// req = solicitud que ingresa al servidor - cliente al servidor (solicitar)
+// res = el servidor responde al cliente (respuesta)
+
+const server = http.createServer((req, res)=>{
+  res.write(JSON.stringify(tasks));
+  res.end();
+})
+
+server.listen(3000, () => {
+  console.log('Server is listening on port 3000');
+});
+
 const tasks = [];
 
-async function addTask(task) {
-  await new Promise(resolve => {
-    tasks.push(task);
-    resolve();
+async function addTask() {
+  return new Promise((resolve) => {
+    crear.question('Enter task name: ', (task) => {
+      crear.question('Enter task description: ', (description) => {
+        console.log(`Tarea añadida: ${task}, descripción añadida: ${description}`);
+        tasks.push({
+          id: tasks.length + 1, 
+          task, 
+          description, 
+          completed: false});
+        resolve();
+      });
+    });
   });
-  console.log(`Tarea añadida: ${task}`);
 }
 
 async function deleteTask(index) {
@@ -29,13 +54,13 @@ async function completeTask(index) {
     task.completed = true;
     resolve();
   });
-  console.log(`Se completo la tarea: ${tasks.description}`);
+  console.log(`Se completo la tarea: ${index + 1}`);
 }
 
 function printTasks() {
   console.log('Lista de tareas:');
   tasks.forEach((task, index) => {
-    console.log(`${index + 1}. [${task.completed ? 'Completada' : 'Aun no está completada'}] ${task.description}`);
+    console.log(`${index + 1}. ${task.task}, ${task.description} [${task.completed ? 'Completado' : 'Pendiente'}] `);
   });
 }
 
@@ -45,9 +70,7 @@ async function handleInput(input) {
     switch (command) {
       case 'add':
         await addTask({
-          id: tasks.length + 1,
-          description: args.join(' '),
-          completed: false
+          task: args.join(' ')
         });
         break;
       case 'delete':
@@ -70,11 +93,11 @@ async function handleInput(input) {
 
 crear.on('line', handleInput);
 
-console.log('Bienvenido a la lista de tareas\n');
+console.log('Bienvenido a la lista de tareas');
 console.log('Comandos disponibles:');
-console.log('- add [descripción]: Añade una tarea');
+console.log('- add [enter]: Añade una tarea');
 console.log('- delete [número]: Elimina una tarea');
 console.log('- complete [número]: Marca una tarea como completada');
 console.log('- list: Muestra la lista de tareas');
-console.log('- exit: Sale de la aplicación\n');
+console.log('- exit: Sale de la aplicación');
 crear.prompt();
