@@ -5,22 +5,9 @@ const crear = readline.createInterface({
   output: process.stdout
 });
 
-const http = require('http');
-const { log } = require('console');
+const express = require('express');
+const app = express();
 const port = 3000;
-const host = 'localhost';
-
-// req = solicitud que ingresa al servidor - cliente al servidor (solicitar)
-// res = el servidor responde al cliente (respuesta)
-
-const server = http.createServer((req, res)=>{
-  res.write(JSON.stringify(tasks));
-  res.end();
-})
-
-server.listen(3000, () => {
-  console.log('Server is listening on port 3000');
-});
 
 const tasks = [];
 
@@ -92,6 +79,14 @@ async function handleInput(input) {
 }
 
 crear.on('line', handleInput);
+
+app.get('/tasks', (req, res) => {
+  res.json(tasks);
+});
+
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
+});
 
 console.log('Bienvenido a la lista de tareas');
 console.log('Comandos disponibles:');
