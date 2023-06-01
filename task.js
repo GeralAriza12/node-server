@@ -85,7 +85,7 @@ app.get('/tasks', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
+  console.log(`Server is listening on port ${port}/tasks`);
 });
 
 console.log('Bienvenido a la lista de tareas');
