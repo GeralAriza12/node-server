@@ -8,6 +8,9 @@ app.use('/tasks', listViewRouter);
 const listEditRouter = require('./list-edit-router');
 app.use('/tasks', listEditRouter)
 
+const validarMetodosHTTP = require('./validarMetodosHTTP');
+app.use(validarMetodosHTTP)
+
 app.use(express.json())
 
 app.listen(port,() => {

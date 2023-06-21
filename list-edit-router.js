@@ -5,7 +5,19 @@ router.use(express.json())
 
 const tasks = require('./tasks.json');
 
-router.post('/crear', (req, res) => {
+function validacion (req, res, next) {
+    const { task, description, completed } = req.body;
+    if (!task) {
+        return res.status(400).send("El cuerpo de la tarea esta vacio");
+    } else if (!description) {
+        return res.status(400).send("El cuerpo de la descripción esta vacio");
+    } else if (req.method === 'PUT' && !completed) {
+        return res.status(400).send("El cuerpo contiene información no valida, atributos faltantes para crear las tareas")
+    }
+    next()
+}
+
+router.post('/crear', validacion, (req, res) => {
     const { task, description } = req.body;
     tasks.push({
         id: tasks.length + 1,
@@ -13,7 +25,7 @@ router.post('/crear', (req, res) => {
         description,
         completed: false,
     });
-  res.json({ message: 'Tarea creada satisfactoriamente' });
+    res.json({ message: 'Tarea creada satisfactoriamente' });
 })
 
 router.get('/list/:id', (req, res) => {
@@ -23,12 +35,16 @@ router.get('/list/:id', (req, res) => {
     if (tarea) {
         res.status(200).send(tarea)
     } else {
-        res.status(404).send("No tienes tareas")
+        res.status(404).json({ message: "No tienes tareas"})
     }
 })
 
 router.get('/list', (req, res) => {
-    res.send(tasks)
+    if(tasks.length === 0){
+        res.status(400).json({ message: "Aún no tienes tareas"})
+    } else {
+        res.send(tasks)
+    }
 })
 
 router.delete('/eliminar/:id', (req, res) => {
@@ -42,7 +58,7 @@ router.delete('/eliminar/:id', (req, res) => {
     }
 })
 
-router.put('/actualiza/:id', (req, res) => {
+router.put('/actualiza/:id', validacion, (req, res) => {
     const taskId = parseInt(req.params.id);
     const taskIndex = tasks.findIndex((task) => task.id === taskId);
     if (taskIndex !== -1) {
@@ -55,7 +71,7 @@ router.put('/actualiza/:id', (req, res) => {
         };
         res.json({ message: 'Tarea actualizada con exito' });
     } else {
-        res.status(404).json({ message: 'Tarea no encontrada' });
+        res.status(404).send("Tarea no encontrada");
     }
 })
 
