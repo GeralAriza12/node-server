@@ -6,12 +6,15 @@ const listViewRouter = require('./list-view-router');
 app.use('/tasks', listViewRouter);
 
 const listEditRouter = require('./list-edit-router');
-app.use('/tasks', listEditRouter)
+app.use('/tasks', listEditRouter);
 
 const validarMetodosHTTP = require('./validarMetodosHTTP');
-app.use(validarMetodosHTTP)
+app.use(validarMetodosHTTP);
 
-app.use(express.json())
+const autenticacion = require('./autenticacionJWT');
+app.use('/autentic', autenticacion);
+
+app.use(express.json());
 
 app.listen(port,() => {
   console.log(`el servidor esta escuchando en el puerto ${port}`)

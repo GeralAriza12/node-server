@@ -1,7 +1,7 @@
 #¿Qué es mi producto y para que sirve?
 
     Es un servidor web que su funcion es responder a solicitudes con recursos web, este producto funciona por medio de instancias de express que es una libreria que crea un servidor por el cual nosotros enviamos nuestro producto para ser usado por el cliente.
-    En esta version del producto entregamos dos rutas más las cuales nos muestran las tareas que estan completas y las que aun el cliente no completa, esto para filtrar e identificar mas rapido que ya se hizo y que falta hacer ayudando al cliente a tener un mayor control en su dia.
+    En esta version del producto entregamos dos rutas más las cuales nos muestran las tareas que estan completas y las que aun el cliente no completa, esto para filtrar e identificar mas rapido que ya se hizo y que falta hacer ayudando al cliente a tener un mayor control de su día.
 
 #¿Cuáles son las funcionalidades más importantes y porque los usuarios las usarían?
 
